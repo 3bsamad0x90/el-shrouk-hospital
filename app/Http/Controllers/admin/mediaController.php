@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+
 use App\Media;
 use Illuminate\Http\Request;
-
+use File;
+use Response;
 class mediaController extends Controller
 {
     public function index(){
@@ -21,15 +23,27 @@ class mediaController extends Controller
             ]
         ], compact('media'));
     }
-    public function store(newRequest $request){
-        $data = $request->except(['_token', 'image']);
-        $news = News::create($data);
-        if($request->has('image')){
-            $data['image'] = upload_image_without_resize('news/'.$news->id , $request->image );
-            $news->update($data);
+    public function store(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'categoryName_ar' => 'required|string',
+            'categoryName_en' => 'required|string',
+            'images' => 'required',
+        ]);
+        $data = $request->except(['_token', 'images']);
+        $item = Media::create($data);
+        $allImages = array();
+        if($files = $request->File('images')){
+            // dd($files);
+            foreach($files as $image){
+                $imageData = upload_image_without_resize('media/'.$item->id , $image );
+                $allImages[] = $imageData;
+            }
+            $data['images'] = json_encode($allImages);
+            $item->update($data);
         }
-        if($news){
-            return redirect()->route('admin.news')
+        if($item){
+            return redirect()->route('admin.media')
                             ->with('success','تم حفظ البيانات بنجاح');
         }else{
             return redirect()->back()
@@ -37,31 +51,51 @@ class mediaController extends Controller
         }
     }
     public function update(Request $request, $id){
-        $news = News::findOrFail($id);
-        $data = $request->except(['_token','image']);
-        if($request->has('image')){
-            if($news->image != '' && file_exists(public_path('uploads/news/'.$news->id .'/'. $news->image))){
-                unlink(public_path('uploads/news/'.$news->id .'/'. $news->image));
-            }
-            $data['image'] = upload_image_without_resize('news/'.$news->id , $request->image );
-        }
-        $news->update($data);
-        if ($news) {
-            return redirect()->route('admin.news')
+        $item = Media::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        if ($item) {
+            return redirect()->route('admin.media')
                             ->with('success','تم تعديل البيانات بنجاح');
         } else {
             return redirect()->back()
                             ->with('failed','لم نستطع تعديل البيانات');
         }
     }
-    public function delete($id){
 
-        $new = News::find($id);
-
-        if($new->image != '' && file_exists(public_path('uploads/news/'.$new->id .'/'. $new->image))){
-            File::deleteDirectory(public_path('uploads/news/'.$new->id),);
+    public function updateImages(Request $request, $id){
+        $item = Media::findOrFail($id);
+        if($files = $request->File('images')){
+            if($item->images != ''){
+                $decoded_images = json_decode($item->images);
+                foreach($decoded_images as $image){
+                    unlink(public_path('uploads/media/'.$item->id .'/'. $image));
+                }
+            }
+            $allImages = array();
+            foreach($files as $image){
+                $imageData = upload_image_without_resize('media/'.$item->id , $image );
+                $allImages[] = $imageData;
+            }
+            $data['images'] = json_encode($allImages);
+            $item->update($data);
         }
-        if ($new->delete()) {
+        if($item){
+            return redirect()->route('admin.media')
+                            ->with('success','تم حفظ البيانات بنجاح');
+        }else{
+            return redirect()->back()
+                            ->with('failed','لم نستطع حفظ البيانات');
+        }
+    }
+
+    public function delete($id){
+        $item = Media::find($id);
+
+        if($item->images != ''){
+            File::deleteDirectory(public_path('uploads/media/'.$item->id),);
+        }
+        if ($item->delete()) {
             return Response::json($id);
         } else {
             return Response::json("false");

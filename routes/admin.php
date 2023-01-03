@@ -61,6 +61,7 @@ Route::group(['prefix'=>'AdminPanel','middleware'=>['isAdmin','auth']], function
         Route::get('/','admin\mediaController@index')->name('admin.media');
         Route::post('/create','admin\mediaController@store')->name('admin.media.store');
         Route::post('/{id}/edit','admin\mediaController@update')->name('admin.media.update');
+        Route::post('/{id}/editImage','admin\mediaController@updateImages')->name('admin.media.updateImages');
         Route::get('/{id}/delete','admin\mediaController@delete')->name('admin.media.delete');
     });
 

@@ -17,7 +17,7 @@ class CreateMediaTable extends Migration
             $table->id();
             $table->string('categoryName_ar');
             $table->string('categoryName_en');
-            $table->string('images');
+            $table->longText('images')->nullable();
             $table->timestamps();
         });
     }
