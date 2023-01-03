@@ -12,8 +12,12 @@
         {{Form::text('siteTitle_en',getSettingValue('siteTitle_en'),['id'=>'siteTitle_en','class'=>'form-control'])}}
     </div>
     <div class="col-12 col-md-12">
-        <label class="form-label" for="siteDescription">وصف الموقع</label>
-        {{Form::textarea('siteDescription',getSettingValue('siteDescription'),['rows'=>'3','id'=>'siteDescription','class'=>'form-control'])}}
+        <label class="form-label" for="siteDescription_ar"> وصف الموقع بالعربية</label>
+        {{Form::textarea('siteDescription_ar',getSettingValue('siteDescription_ar'),['rows'=>'3','id'=>'siteDescription_ar','class'=>'form-control'])}}
+    </div>
+    <div class="col-12 col-md-12">
+        <label class="form-label" for="siteDescription_en">وصف الموقع بالإنجليزية</label>
+        {{Form::textarea('siteDescription_en',getSettingValue('siteDescription_en'),['rows'=>'3','id'=>'siteDescription_en','class'=>'form-control'])}}
     </div>
 
 </div>

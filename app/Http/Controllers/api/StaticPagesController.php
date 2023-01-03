@@ -2,244 +2,199 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Equipment;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\equipmentsResource;
+use App\Http\Resources\gallaryMediaResource;
+use App\Http\Resources\newsEventsResource;
+use App\Http\Resources\ourTeamResource;
+use App\Http\Resources\ServicesResource;
+use App\Http\Resources\weCaresResource;
+use App\Media;
+use App\News;
+use App\ourTeam;
+use App\Services;
+use App\weCare;
 use Illuminate\Http\Request;
-use App\FAQs;
-use App\Settings;
-use App\Currencies;
-use App\Countries;
-use App\Pages;
-use Response;
+use Illuminate\Http\Response;
 
 class StaticPagesController extends Controller
 {
-    public function getLocationInfo()
-    {
-        $xml = simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=".$this->getRealIpAddr());
-        $country = Countries::where('iso',$xml->geoplugin_countryCode)->first();
-        //return $xml;
-        $resArr = [
-            'status' => 'success',
-            'message' => '',
-            'data' => [
-                'countryCode' => $country != '' ? $country['iso'] : 'UA',
-                'countryId' => $country != '' ? $country['id'] : 224
-            ]
-        ];
-        return response()->json($resArr);
-
-
-        // echo "<pre>";
-        // foreach ($xml as $key => $value)
-        // {
-        //     echo $key , "= " , $value ,  " \n" ;
-        // }
-        // echo "</pre>";
-    }
-    public function getRealIpAddr()
-    {
-        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-        {
-            $ip=$_SERVER['HTTP_CLIENT_IP'];
-        }
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-        {
-            $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-        else
-        {
-            $ip=$_SERVER['REMOTE_ADDR'];
-        }
-        return $ip;
-    }
-    public function faqs(Request $request)
+    public function services(Request $request)
     {
         $lang = $request->header('lang');
-        $count = $request->header('count');
         if ($lang == '') {
             $resArr = [
-                'status' => 'faild',
+                'status' => 'failed',
                 'message' => trans('api.pleaseSendLangCode'),
                 'data' => []
             ];
             return response()->json($resArr);
         }
-
-        $faqs = FAQs::where('type','user')->orderBy('ranking','asc')->orderBy('id','desc');
-        if ($count == 'all') {
-            $faqs = $faqs->get();
-        } else {
-            $faqs = $faqs->take($count)->get();
+        $services = Services::get();
+        if(!$services){
+            return response()->json(['status' => 'No Service', Response::HTTP_NOT_FOUND]);
         }
 
-        $list = [];
-        foreach ($faqs as $key => $value) {
-            $list[] = [
-                'question' => $value['question_'.$lang],
-                'answer' => $value['answer_'.$lang]
-            ];
-        }
-        $resArr = [
-            'status' => 'success',
-            'message' => '',
-            'data' => $list
-        ];
-        return response()->json($resArr);
-
+        return response()->json(ServicesResource::collection($services), Response::HTTP_OK);
     }
-    public function settings(Request $request)
+
+    public function weCares(Request $request)
     {
         $lang = $request->header('lang');
-        $country = $request->header('country');
         if ($lang == '') {
             $resArr = [
-                'status' => 'faild',
+                'status' => 'failed',
                 'message' => trans('api.pleaseSendLangCode'),
                 'data' => []
             ];
             return response()->json($resArr);
         }
+        $weCare = weCare::get();
+        if(!$weCare){
+            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
+        }
+        return response()->json(weCaresResource::collection($weCare), Response::HTTP_OK);
+    }
 
+    public function ourTeam(Request $request)
+    {
+        $lang = $request->header('lang');
+        if($lang == ''){
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $ourteam = ourTeam::get();
+        if(!$ourteam){
+            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
+        }
+        return response()->json(ourTeamResource::collection($ourteam), Response::HTTP_OK);
+    }
+    public function equipments(Request $request)
+    {
+        $lang = $request->header('lang');
+        if($lang == ''){
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $equipments = Equipment::get();
+        if(!$equipments){
+            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
+        }
+        return response()->json(equipmentsResource::collection($equipments), Response::HTTP_OK);
+    }
+    public function newsEvents(Request $request)
+    {
+        $lang = $request->header('lang');
+        if($lang == ''){
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $news_events = News::get();
+        if(!$news_events){
+            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
+        }
+        return response()->json(newsEventsResource::collection($news_events), Response::HTTP_OK);
+    }
+    public function allMedia(Request $request)
+    {
+        $lang = $request->header('lang');
+        if($lang == ''){
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $allMedia = Media::get();
+        if(!$allMedia){
+            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
+        }
+        return response()->json(gallaryMediaResource::collection($allMedia), Response::HTTP_OK);
+    }
+
+
+
+    public function settings(Request $request){
+        $lang = $request->header('lang');
+        if ($lang == '') {
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
         $list = [
-            'site_status' => [
-                'status' => getSettingValue('closeSite'),
-                'text' => getSettingValue('closeSiteText')
+            'general_Settings' => [
+                'siteTitle' => getSettingValue('siteTitle_'.$lang),
+                'siteDescription' => getSettingValue('siteDescription_'.$lang),
             ],
-            'SEO' => [
-                'title' => getSettingValue('siteTitle_'.$lang),
-                'description' => getSettingValue('siteDescription'),
-                'keywords' => getSettingValue('siteKeywords')
+            'mainPage' => [
+                'mainPageTitle' => getSettingValue('mainPageTitle_'.$lang),
+                'mainPageDesc' => getSettingValue('mainPageDesc_'.$lang),
+                'mainPageImage' => getSettingImageLink('mainPageImage'),
+            ],
+            'weCare'=> [
+                'weCareTitle' => getSettingValue('weCareTitle_'.$lang),
+                'weCareImage' => getSettingImageLink('weCareImage'),
             ],
             'social' => [
                 'facebook' => getSettingValue('facebook'),
                 'twitter' => getSettingValue('twitter'),
                 'instagram' => getSettingValue('instagram'),
-                'youtube' => getSettingValue('youtube')
+                'youtube' => getSettingValue('youtube'),
+                'whatsapp' => getSettingValue('whatsapp'),
+                'linkedin' => getSettingValue('linkedin'),
             ],
-            'images' => [
-                'logo' => getSettingImageLink(getSettingValue('logo')),
-                'fav' => getSettingImageLink(getSettingValue('fav'))
-            ],
+            'siteLogo' => getSettingImageLink('logo'),
             'contact_data' => [
-                'phone' => getSettingValue('phone'),
-                'mobile' => getSettingValue('mobile'),
+                'address' => getSettingValue('address_'.$lang),
                 'email' => getSettingValue('email'),
+                'phone' => getSettingValue('phone'),
+                'hotLine' => getSettingValue('hotLine'),
                 'map' => getSettingValue('map'),
-                'address' => getSettingValue('address')
+                'imageMap' => getSettingImageLink('imageMap'),
             ],
-            'slider' => $this->getHomeSliderArr($lang),
-            'countries' => $this->countriesList($lang),
-            'currencies' => $this->getCurrenciesArr($lang,$country),
-            'primaryCurrency' => $this->getCurrenciesArr($lang,$country)[0],
-            'about_page' => $this->getPageContent($lang,'1'),
-            'policy_page' => $this->getPageContent($lang,'2'),
-            'paymentMethods' => [
-                'POD' => getSettingValue('podPaymentMethod') != '' ? getSettingValue('podPaymentMethod') : 0,
-                'stripe' => 1
+            'aboutUs' => [
+                'Description' => getSettingValue('aboutusDes_'.$lang),
+                'boxes' => [
+                    [
+                        'title' => getSettingValue('aboutUs1title_'.$lang),
+                        'desc' => getSettingValue('aboutUs1des_'.$lang),
+                        'icon' => getSettingImageLink('aboutUs1icon'),
+                    ],
+                    [
+                        'title' => getSettingValue('aboutUs2title_'.$lang),
+                        'desc' => getSettingValue('aboutUs2des_'.$lang),
+                        'image' => getSettingImageLink('aboutUs2icon'),
+                    ],
+                    [
+                        'title' => getSettingValue('aboutUs3title_'.$lang),
+                        'desc' => getSettingValue('aboutUs3des_'.$lang),
+                        'image' => getSettingImageLink('aboutUs3icon'),
+                    ],
+                ],
             ],
-            'shippingMethods' => [
-                'free' => [
-                    'id' => 'free',
-                    'status' => getSettingValue('freeShipping'),
-                    'name' => trans('common.freeShipping'),
-                    'time' => [
-                        'from' => getSettingValue('freeShippingTimeFrom'),
-                        'to' => getSettingValue('freeShippingTimeTo')
-                    ]
-                ],
-                'traditional' => [
-                    'id' => 'traditional',
-                    'status' => getSettingValue('otherShippingMethod'),
-                    'name' => trans('common.otherShippingMethod'),
-                    'time' => [
-                        'from' => getSettingValue('otherShippingMethodTimeFrom'),
-                        'to' => getSettingValue('otherShippingMethodTimeTo')
-                    ]
-                ],
-                'exprese' => [
-                    'id' => 'exprese',
-                    'status' => getSettingValue('expreseShippingStatus'),
-                    'name' => trans('common.expreseShipping'),
-                    'time' => [
-                        'from' => getSettingValue('expreseShippingTimeFrom'),
-                        'to' => getSettingValue('expreseShippingTimeTo')
-                    ]
-                ],
-                'fedex' => [
-                    'id' => 'fedex',
-                    'status' => 1,
-                    'name' => trans('common.fedexShipping'),
-                    'time' => [
-                        'from' => getSettingValue('fedexShippingTimeFrom'),
-                        'to' => getSettingValue('fedexShippingTimeTo')
-                    ]
-                ]
-            ],
-            'messageSubjects' => messageSubjects($lang),
-            'user_meta' => [
-                'notification_count' => 0,
-                'cart_items' => 0
-            ]
-
         ];
+
         $resArr = [
             'status' => 'success',
-            'message' => '',
-            'data' => $list
+            'data' => [$list]
         ];
-        return response()->json($resArr);
-
+        return response()->json($resArr, Response::HTTP_OK );
     }
-
-    public function getHomeSliderArr($lang)
-    {
-        $array = [];
-        for ($i=0; $i < 5; $i++) {
-            if (getSettingValue('home_slide'.$i.'title_'.$lang) != '') {
-                $array[] = [
-                    'image' => getSettingImageLink('home_slide'.$i.'img'),
-                    'title' => getSettingValue('home_slide'.$i.'title_'.$lang),
-                    'des' => getSettingValue('home_slide'.$i.'des_'.$lang),
-                    'button_text' => getSettingValue('home_slide'.$i.'btnTxt_'.$lang),
-                    'link' => getSettingValue('home_slide'.$i.'btnLink')
-                ];
-            }
-        }
-        return $array;
-    }
-
-    public function getCurrenciesArr($lang,$country = null)
-    {
-        $default = Currencies::where('primary','1')->first();
-        $currencies = [$default->apiData($lang)];
-        if ($country != null) {
-            $countryData = Countries::find($country);
-            $currencies[] = $countryData->currencyDetails->apiData($lang);
-        }
-        return $currencies;
-    }
-
-    public function countriesList($lang)
-    {
-        $countries = Countries::orderBy('name_'.$lang)->get();
-        $list = [];
-        foreach ($countries as $key => $country) {
-            $list[] = [
-                'id' => $country['id'],
-                'name' => $country['name_'.$lang] != '' ? $country['name_'.$lang] : $country['name_en']
-            ];
-        }
-        return $list;
-    }
-
-    public function getPageContent($lang,$id)
-    {
-        $page = Pages::find($id);
-        return [
-            'id' => $page != '' ? $page->id : '',
-            'title' => $page != '' ? $page['title_'.$lang] : '',
-            'content' => $page != '' ? $page['content_'.$lang] : ''
-        ];
-    }
-
 }

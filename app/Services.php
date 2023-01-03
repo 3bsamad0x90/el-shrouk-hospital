@@ -15,7 +15,7 @@ class Services extends Model
         if(!file_exists(public_path('uploads/services/'.$this->id.'/'.$this->icon))){
             $icon = asset('AdminAssets/app-assets/icon/icon.png');
         }
-
         return $icon;
     }
+
 }
