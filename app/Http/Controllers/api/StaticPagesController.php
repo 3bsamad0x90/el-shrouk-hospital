@@ -108,25 +108,6 @@ class StaticPagesController extends Controller
         }
         return response()->json(newsEventsResource::collection($news_events), Response::HTTP_OK);
     }
-    public function allMedia(Request $request)
-    {
-        $lang = $request->header('lang');
-        if($lang == ''){
-            $resArr = [
-                'status' => 'failed',
-                'message' => trans('api.pleaseSendLangCode'),
-                'data' => []
-            ];
-            return response()->json($resArr);
-        }
-        $allMedia = Media::get();
-        if(!$allMedia){
-            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
-        }
-        return response()->json(gallaryMediaResource::collection($allMedia), Response::HTTP_OK);
-    }
-
-
 
     public function settings(Request $request){
         $lang = $request->header('lang');

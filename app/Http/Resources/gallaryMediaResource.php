@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Random;
 
 class gallaryMediaResource extends JsonResource
 {
@@ -15,10 +16,13 @@ class gallaryMediaResource extends JsonResource
     public function toArray($request)
     {
         $lang = $request->header('lang');
+        $ALLImages = json_decode($this->images);
+        $count = count($ALLImages);
+        $random = rand(0, $count-1);
         return [
             'id' => $this->id,
             'categoryName' => $this['categoryName_'.$lang] != '' ? $this['categoryName_'.$lang] : $this['categoryName_en'],
-            'images' => $this->images,
+            'images' => $ALLImages[$random],
         ];
     }
 }

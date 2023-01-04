@@ -28,8 +28,10 @@ Route::group(['middleware'=> ['api']], function () {
     Route::get('/ourTeam','api\StaticPagesController@ourTeam');
     Route::get('/equipments','api\StaticPagesController@equipments');
     Route::get('/newsEvents','api\StaticPagesController@newsEvents');
-    Route::get('/gallaryMedia','api\StaticPagesController@allMedia');
     Route::get('/settings','api\StaticPagesController@settings');
+
+    Route::get('/media/{id}','api\gallaryMediaController@MediaImages');
+    Route::get('/gallaryMedia','api\gallaryMediaController@allMedia');
     Route::post('/sendContactMessage','api\ContactMessagesController@sendContactMessage');
 
 });

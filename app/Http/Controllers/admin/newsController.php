@@ -25,10 +25,15 @@ class newsController extends Controller
         ], compact('news'));
     }
     public function store(newRequest $request){
-        $data = $request->except(['_token', 'image']);
+        $data = $request->except(['_token', 'images']);
         $news = News::create($data);
-        if($request->has('image')){
-            $data['image'] = upload_image_without_resize('news/'.$news->id , $request->image );
+        $allImages = array();
+        if($files = $request->file('images')){
+            foreach($files as $image){
+                $imageData = upload_image_without_resize('news/'.$news->id , $image );
+                $allImages[] = $imageData;
+            }
+            $data['images'] = json_encode($allImages);
             $news->update($data);
         }
         if($news){
@@ -57,11 +62,43 @@ class newsController extends Controller
                             ->with('failed','لم نستطع تعديل البيانات');
         }
     }
+    public function updateImages(Request $request, $id){
+        $request->validate([
+            'images.*' => 'mimes:png,jpg,jpeg',
+        ],
+        [
+            'images.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+            'images.*.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+        ]);
+        $item = News::findOrFail($id);
+        if($files = $request->File('images')){
+            if($item->images != ''){
+                $decoded_images = json_decode($item->images);
+                foreach($decoded_images as $image){
+                    unlink(public_path('uploads/news/'.$item->id .'/'. $image));
+                }
+            }
+            $allImages = array();
+            foreach($files as $image){
+                $imageData = upload_image_without_resize('news/'.$item->id , $image );
+                $allImages[] = $imageData;
+            }
+            $data['images'] = json_encode($allImages);
+            $item->update($data);
+        }
+        if($item){
+            return redirect()->route('admin.news')
+                            ->with('success','تم حفظ البيانات بنجاح');
+        }else{
+            return redirect()->back()
+                            ->with('failed','لم نستطع حفظ البيانات');
+        }
+    }
     public function delete($id){
 
         $new = News::find($id);
 
-        if($new->image != '' && file_exists(public_path('uploads/news/'.$new->id .'/'. $new->image))){
+        if($new->images != ''){
             File::deleteDirectory(public_path('uploads/news/'.$new->id),);
         }
         if ($new->delete()) {

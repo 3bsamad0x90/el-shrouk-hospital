@@ -23,7 +23,6 @@
                             <tr>
                                 <th class="text-center">العنوان</th>
                                 <th class="text-center">الوصف</th>
-                                <th class="text-center">الصورة</th>
                                 <th class="text-center">الإجراءات</th>
                             </tr>
                         </thead>
@@ -39,10 +38,9 @@
                                         {{$new->description_en}}
                                     </td>
                                     <td class="text-center">
-                                        <img class="round border" src="{{$new->photoLink()}}" alt="avatar" width="100px">
-                                    </td>
-
-                                    <td class="text-center">
+                                        <a href="javascript:;" data-bs-target="#editImages{{$new->id}}" data-bs-toggle="modal" class="btn btn-icon btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{trans('common.edit')}}">
+                                            <i data-feather='camera'></i>
+                                        </a>
                                         <a href="javascript:;" data-bs-target="#editnew{{$new->id}}" data-bs-toggle="modal" class="btn btn-icon btn-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{trans('common.edit')}}">
                                             <i data-feather='edit'></i>
                                         </a>
@@ -95,15 +93,50 @@
                                             {{Form::textarea('description_en',$new->description_en,['id'=>'description_en', 'class'=>'form-control editor_en'])}}
                                         </div>
 
+                                        <div class="col-12 text-center mt-2 pt-50">
+                                            <button type="submit" class="btn btn-primary me-1">حفظ التغييرات</button>
+                                            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
+                                                {{trans('common.Cancel')}}
+                                            </button>
+                                        </div>
+                                    {{Form::close()}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                {{-- Edit Images --}}
+                @foreach($news as $new)
+                    <div class="modal fade text-md-start" id="editImages{{$new->id}}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                            <div class="modal-content">
+                                <div class="modal-header bg-transparent">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pb-5 px-sm-5 pt-50">
+                                    <div class="text-center mb-2">
+                                        <h1 class="mb-1">{{trans('common.edit')}}</h1>
+                                    </div>
+                                    {{Form::open(['url'=>route('admin.news.updateImages',['id'=>$new->id]), 'id'=>'editnewForm', 'class'=>'row gy-1 pt-75', 'files'=>true])}}
+                                        @php
+                                            $images = json_decode($new->images);
+                                        @endphp
+                                        <div class="user-image mb-3">
+                                            @if($images != null)
+                                                @foreach ($images as $image)
+                                                    <img class="img-fluid rounded border-black mt-1" src="{{ asset('uploads/news/'.$new->id. '/' . $image) }}" alt="user avatar" height="90" width="90">
+                                                @endforeach
+                                            @endif
+                                        </div>
                                         <div class="col-12 col-md-12">
-                                            <label class="form-label" for="image">الصورة</label>
-                                            {{Form::file('image',['id'=>'image', 'class'=>'form-control'])}}
+                                            <label class="form-label" for="images">الصورة</label>
+                                            {{Form::file('images[]',['id'=>'images', 'class'=>'form-control', 'multiple'=>true])}}
                                         </div>
 
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">حفظ التغييرات</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                                {{trans('common.Cancel')}}
+                                                إالغاء
                                             </button>
                                         </div>
                                     {{Form::close()}}
@@ -155,8 +188,8 @@
                         </div>
 
                         <div class="col-12 col-md-12">
-                            <label class="form-label" for="image">الصورة</label>
-                            {{Form::file('image',['id'=>'image', 'class'=>'form-control'])}}
+                            <label class="form-label" for="images">الصور</label>
+                            {{Form::file('images[]',['id'=>'images', 'class'=>'form-control', 'multiple'=>true])}}
                         </div>
 
                         <div class="col-12 text-center mt-2 pt-50">

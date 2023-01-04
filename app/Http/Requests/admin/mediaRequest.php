@@ -39,6 +39,7 @@ class mediaRequest extends FormRequest
             'categoryName_en.required' => 'يجب ادخال القسم باللغة الانجليزية',
             'images.required' => 'يجب ادخال الصورة',
             'images.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+            'images.*.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
         ];
     }
 }

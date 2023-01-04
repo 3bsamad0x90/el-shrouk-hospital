@@ -28,7 +28,8 @@ class newRequest extends FormRequest
             'title_en' => 'required|string',
             'description_ar' => 'required|string',
             'description_en' => 'required|string',
-            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'images' => 'required',
+            'images.*' => 'image|mimes:png,jpg,jpeg',
         ];
     }
 
@@ -40,8 +41,9 @@ class newRequest extends FormRequest
             'description_ar.required' => 'يجب ادخال الوصف باللغة العربية',
             'description_en.required' => 'يجب ادخال الوصف باللغة الانجليزية',
             'image.required' => 'يجب ادخال الصورة',
-            'image.image' => 'يجب ان تكون الصورة من نوع صورة',
-            'image.mimes' => 'يجب ان تكون الصورة من نوع png,jpg,jpeg',
+            'images.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+            'images.*.image' => 'يجب ان يكون حقل الصورة من نوع صورة',
+            'images.*.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
         ];
     }
 }

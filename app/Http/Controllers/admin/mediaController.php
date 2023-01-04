@@ -32,7 +32,6 @@ class mediaController extends Controller
         $item = Media::create($data);
         $allImages = array();
         if($files = $request->file('images')){
-        //    dd($files);
             foreach($files as $image){
                 $imageData = upload_image_without_resize('media/'.$item->id , $image );
                 $allImages[] = $imageData;
@@ -68,7 +67,7 @@ class mediaController extends Controller
         ],
         [
             'images.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
-            'images.*' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+            'images.*.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
         ]);
         $item = Media::findOrFail($id);
         if($files = $request->File('images')){

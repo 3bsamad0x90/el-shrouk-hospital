@@ -19,7 +19,7 @@ class newsEventsResource extends JsonResource
             'id' => $this->id,
             'title' => $this['title_'.$lang] != '' ? $this['title_'.$lang] : $this['title_en'],
             'description' => $this['description_'.$lang] != '' ? $this['description_'.$lang] : $this['description_en'],
-            'image' => $this->image,
+            'images' => $this->images,
         ];
     }
 }
