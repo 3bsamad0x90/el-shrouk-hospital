@@ -10,8 +10,6 @@ use App\Http\Resources\newsEventsResource;
 use App\Http\Resources\ourTeamResource;
 use App\Http\Resources\ServicesResource;
 use App\Http\Resources\weCaresResource;
-use App\Media;
-use App\News;
 use App\ourTeam;
 use App\Services;
 use App\weCare;
@@ -90,23 +88,6 @@ class StaticPagesController extends Controller
             return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
         }
         return response()->json(equipmentsResource::collection($equipments), Response::HTTP_OK);
-    }
-    public function newsEvents(Request $request)
-    {
-        $lang = $request->header('lang');
-        if($lang == ''){
-            $resArr = [
-                'status' => 'failed',
-                'message' => trans('api.pleaseSendLangCode'),
-                'data' => []
-            ];
-            return response()->json($resArr);
-        }
-        $news_events = News::get();
-        if(!$news_events){
-            return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
-        }
-        return response()->json(newsEventsResource::collection($news_events), Response::HTTP_OK);
     }
 
     public function settings(Request $request){

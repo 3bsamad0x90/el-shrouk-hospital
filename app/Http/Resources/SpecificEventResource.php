@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class newsEventsResource extends JsonResource
+class SpecificEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,13 +17,11 @@ class newsEventsResource extends JsonResource
     {
         $lang = $request->header('lang');
         $allImages = json_decode($this->images);
-        $count = count($allImages);
-        $random = rand(0, $count-1);
         return [
             'id' => $this->id,
             'title' => $this['title_'.$lang] != '' ? $this['title_'.$lang] : $this['title_en'],
             'description' => $this['description_'.$lang] != '' ? $this['description_'.$lang] : $this['description_en'],
-            'images' => $allImages[$random],
+            'images' => $allImages,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i A'),
         ];
     }

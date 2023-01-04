@@ -32,6 +32,10 @@ Route::group(['middleware'=> ['api']], function () {
 
     Route::get('/media/{id}','api\gallaryMediaController@MediaImages');
     Route::get('/gallaryMedia','api\gallaryMediaController@allMedia');
+
+    Route::get('/newsEvents/{id}','api\newsEventsController@show');
+    Route::get('/newsEvents','api\newsEventsController@newsEvents');
+
     Route::post('/sendContactMessage','api\ContactMessagesController@sendContactMessage');
 
 });
