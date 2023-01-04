@@ -57,8 +57,8 @@
                         <!-- Login basic -->
                         <div class="card mb-0">
                             <div class="card-body">
-                                <a href="https://ilawfair.com" class="brand-logo">
-                                    <img src="{{asset('/AdminAssets/app-assets/images/logo/logo.png')}}" width="50%" />
+                                <a href="#" class="brand-logo">
+                                    <img src="{{ asset(getSettingImageLink('logo')) }}" width="50%" />
                                 </a>
 
                                 <h4 class="card-title mb-1 text-center">{{trans('common.Admin Panel')}}</h4>

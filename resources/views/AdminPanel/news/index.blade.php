@@ -89,7 +89,7 @@
                                             <label class="form-label" for="description_ar">الوصف بالعربية</label>
                                             {{Form::textarea('description_ar',$new->description_ar,['id'=>'description_ar', 'class'=>'form-control editor_ar'])}}
                                         </div>
-                                        
+
                                         <div class="col-12 col-md-12">
                                             <label class="form-label" for="description_en">الوصف بالإنجليزية</label>
                                             {{Form::textarea('description_en',$new->description_en,['id'=>'description_en', 'class'=>'form-control editor_en'])}}
@@ -145,13 +145,13 @@
                             <label class="form-label" for="title_en">العنوان بالإنجليزية</label>
                             {{Form::text('title_en','',['id'=>'title_en', 'class'=>'form-control'])}}
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-12">
                             <label class="form-label" for="description_ar">الوصف بالعربية</label>
-                            {{Form::text('description_ar','',['id'=>'description_ar', 'class'=>'form-control'])}}
+                            {{Form::textarea('description_ar','',['id'=>'description_ar', 'class'=>'form-control editor_ar'])}}
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-12">
                             <label class="form-label" for="description_en">الوصف بالإنجليزية</label>
-                            {{Form::text('description_en','',['id'=>'description_en', 'class'=>'form-control'])}}
+                            {{Form::textarea('description_en','',['id'=>'description_en', 'class'=>'form-control editor_en'])}}
                         </div>
 
                         <div class="col-12 col-md-12">

@@ -30,6 +30,18 @@ class newRequest extends FormRequest
             'description_en' => 'required|string',
             'image' => 'required|image|mimes:png,jpg,jpeg',
         ];
+    }
 
+    public function messages()
+    {
+        return [
+            'title_ar.required' => 'يجب ادخال العنوان باللغة العربية',
+            'title_en.required' => 'يجب ادخال العنوان باللغة الانجليزية',
+            'description_ar.required' => 'يجب ادخال الوصف باللغة العربية',
+            'description_en.required' => 'يجب ادخال الوصف باللغة الانجليزية',
+            'image.required' => 'يجب ادخال الصورة',
+            'image.image' => 'يجب ان تكون الصورة من نوع صورة',
+            'image.mimes' => 'يجب ان تكون الصورة من نوع png,jpg,jpeg',
+        ];
     }
 }

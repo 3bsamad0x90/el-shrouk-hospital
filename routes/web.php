@@ -25,11 +25,11 @@ Route::post('/testStripe', function () {
             "amount" => 100 * 150,
             "currency" => "inr",
             "source" => request()->stripeToken,
-            "description" => "Making test payment." 
+            "description" => "Making test payment."
     ]);
 
     Session::flash('success', 'Payment has been successfully processed.');
-        
+
     return back();
 })->name('stripe.payment');
 Route::get('SwitchLang/{lang}',function($lang){
@@ -45,17 +45,17 @@ Route::get('user/{email}/{lang}',function($email,$lang){
     if ($lang == 'ar') {
         $html = '<div dir="rtl" style="padding-top:30px;font-size:16px;text-align:center;">';
         $html .= 'تم تفعيل حسابك بنجاح';
-        $html .= '<br><a href="https://ilawfair.com" dir="rtl" style="padding:10px 20px;font-size:16px;text-align:center;">اضغط هنا لتسجيل الدخول</a>';
+        $html .= '<br><a href="#" dir="rtl" style="padding:10px 20px;font-size:16px;text-align:center;">اضغط هنا لتسجيل الدخول</a>';
         $html .= '</div>';
         return $html;
     } else {
         $html = '<div dir="rtl" style="padding-top:30px;font-size:16px;text-align:center;">';
         $html .= 'your account activated successfully';
-        $html .= '<br><a href="https://ilawfair.com" dir="rtl" style="padding:10px 20px;font-size:16px;text-align:center;">click here to login</a>';
+        $html .= '<br><a href="#" dir="rtl" style="padding:10px 20px;font-size:16px;text-align:center;">click here to login</a>';
         $html .= '</div>';
         return $html;
     }
-    
+
 })->name('user.ativate.account');
 
 

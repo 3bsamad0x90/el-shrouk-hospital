@@ -52,20 +52,10 @@ class ContactMessages extends Model
         $data = [
             'name' => $this->name,
             'phone' => $this->phone,
-            'company' => $this->company,
-            'country' => $this->countryDetails['name_'.session()->get('Lang')] ?? '',
             'email' => $this->email,
-            'countryCode' => $this->countryDetails['phonecode'] ?? ''
+            'content' => $this->content,
         ];
-        
-        if ($this->user_type == 'publisher') {
-            $data['name'] = $this->publisher->responsible ?? '';
-            $data['phone'] = $this->publisher->phone ?? '';
-            $data['company'] = $this->publisher->name ?? '';
-            $data['country'] = $this->publisher->countryData()['name'] ?? '';
-            $data['countryCode'] = $this->publisher->countryData()['phonecode'] ?? '';
-            $data['email'] = $this->publisher->email ?? '';
-        }
+
         return $data;
     }
 }

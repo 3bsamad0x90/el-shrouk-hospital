@@ -113,9 +113,11 @@
                                             $images = json_decode($item->images);
                                         @endphp
                                         <div class="user-image mb-3">
-                                            @foreach ($images as $image)
-                                                <img class="img-fluid rounded border-black mt-1" src="{{ asset('uploads/media/'.$item->id. '/' . $image) }}" alt="user avatar" height="90" width="90">
-                                            @endforeach
+                                            @if($images != null)
+                                                @foreach ($images as $image)
+                                                    <img class="img-fluid rounded border-black mt-1" src="{{ asset('uploads/media/'.$item->id. '/' . $image) }}" alt="user avatar" height="90" width="90">
+                                                @endforeach
+                                            @endif
                                         </div>
                                         <div class="col-12 col-md-12">
                                             <label class="form-label" for="images">تعديل الصور</label>
@@ -157,7 +159,7 @@
                     <div class="text-center mb-2">
                         <h1 class="mb-1">إضافة جديد</h1>
                     </div>
-                    {{Form::open(['url'=>route('admin.media.store'), 'id'=>'createitemForm', 'class'=>'row gy-1 pt-75', 'files'=>true])}}
+                    {{Form::open(['url'=>route('admin.media.store'), 'id'=>'createitemForm', 'class'=>'row gy-1 pt-75', 'files'=>'true','enctype'=>'multipart/form-data'])}}
                         <div class="col-12 col-md-6">
                             <label class="form-label" for="categoryName_ar">إسم القسم بالعربية</label>
                             {{Form::text('categoryName_ar','',['id'=>'categoryName_ar', 'class'=>'form-control'])}}
@@ -169,7 +171,7 @@
 
                         <div class="col-12 col-md-12">
                             <label class="form-label" for="images">الصور</label>
-                            {{Form::file('images[]',['id'=>'images', 'class'=>'form-control', 'multiple'=>true])}}
+                            {{Form::file('images[]',['id'=>'images', 'class'=>'form-control', 'multiple'=>'true'])}}
                         </div>
 
                         <div class="col-12 text-center mt-2 pt-50">

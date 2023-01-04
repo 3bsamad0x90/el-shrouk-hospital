@@ -21,7 +21,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="weCare-tab" data-bs-toggle="tab" href="#weCare" aria-controls="weCare" role="tab" aria-selected="true">
-                                <i data-feather="heart"></i>إهتمامنا
+                                <i data-feather="heart"></i>مميزاتنا
                             </a>
                         </li>
                         <li class="nav-item">
@@ -41,7 +41,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" aria-controls="about" role="tab" aria-selected="false">
-                                <i data-feather="users"></i>  عننا
+                                <i data-feather="users"></i>  من نحن
                             </a>
                         </li>
                     </ul>

@@ -40,6 +40,7 @@ return [
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
     'email' => 'بيانات :attribute يجب أن تحتوي على بريد إلكتروني صحيح.',
+    'phone' => 'بيانات :attribute يجب أن تحتوي على هاتف صحيح.',
     'ends_with' => 'The :attribute must end with one of the following: :values.',
     'exists' => 'The selected :attribute is invalid.',
     'file' => 'The :attribute must be a file.',
@@ -57,6 +58,7 @@ return [
         'array' => 'The :attribute must have :value items or more.',
     ],
     'image' => 'حقل :attribute يجب أن يحتوي على صورة فقط.',
+    'images' => 'حقل :attribute يجب أن يحتوي على صور فقط.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
@@ -180,6 +182,7 @@ return [
         'description_en' => 'الوصف بالانجليزية',
         'icon' => 'الأيقونة',
         'image' => 'الصورة',
+        'images' => 'الصور',
     ],
 
 ];

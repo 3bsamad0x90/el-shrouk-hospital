@@ -15,11 +15,11 @@ class weCareController extends Controller
         $weCares = weCare::all();
         return view('AdminPanel.weCare.index',[
             'active' => 'weCare',
-            'title' => "إهتمامنا",
+            'title' => "مميزاتنا",
             'breadcrumbs' => [
                 [
                     'url' => '',
-                    'text' => "إهتمامنا"
+                    'text' => "مميزاتنا"
                 ]
             ]
         ], compact('weCares'));

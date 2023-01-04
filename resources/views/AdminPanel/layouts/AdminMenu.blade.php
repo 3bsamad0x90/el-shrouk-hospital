@@ -36,7 +36,7 @@
                 <a class="d-flex align-items-center" href="{{route('admin.weCares')}}">
                     <i data-feather='heart'></i>
                     <span class="menu-title text-truncate" data-i18n="{{trans('common.weCare')}}">
-                        إهتمامنا
+                        مميزاتنا
                     </span>
                 </a>
             </li>

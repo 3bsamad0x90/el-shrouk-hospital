@@ -4,10 +4,12 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\admin\mediaRequest;
 use App\Media;
-use Illuminate\Http\Request;
 use File;
+use Illuminate\Http\Request;
 use Response;
+
 class mediaController extends Controller
 {
     public function index(){
@@ -23,18 +25,14 @@ class mediaController extends Controller
             ]
         ], compact('media'));
     }
-    public function store(Request $request){
+    public function store(mediaRequest $request){
         // dd($request->all());
-        $request->validate([
-            'categoryName_ar' => 'required|string',
-            'categoryName_en' => 'required|string',
-            'images' => 'required',
-        ]);
+
         $data = $request->except(['_token', 'images']);
         $item = Media::create($data);
         $allImages = array();
-        if($files = $request->File('images')){
-            // dd($files);
+        if($files = $request->file('images')){
+        //    dd($files);
             foreach($files as $image){
                 $imageData = upload_image_without_resize('media/'.$item->id , $image );
                 $allImages[] = $imageData;
@@ -50,7 +48,8 @@ class mediaController extends Controller
                             ->with('failed','لم نستطع حفظ البيانات');
         }
     }
-    public function update(Request $request, $id){
+    public function update(mediaRequest $request, $id){
+
         $item = Media::findOrFail($id);
         $data = $request->except(['_token']);
         $item->update($data);
@@ -64,6 +63,13 @@ class mediaController extends Controller
     }
 
     public function updateImages(Request $request, $id){
+        $request->validate([
+            'images.*' => 'mimes:png,jpg,jpeg',
+        ],
+        [
+            'images.mimes' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+            'images.*' => 'يجب ان تكون الصورة من نوع png, jpg, jpeg',
+        ]);
         $item = Media::findOrFail($id);
         if($files = $request->File('images')){
             if($item->images != ''){
