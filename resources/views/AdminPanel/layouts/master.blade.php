@@ -68,7 +68,7 @@
                 </ul>
                 <ul class="nav navbar-nav bookmark-icons">
                     <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link" target="_blank" href="https://ilawfair.com" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{trans('common.websiteHome')}}">
+                        <a class="nav-link" target="_blank" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{trans('common.websiteHome')}}">
                             <i class="ficon" data-feather="home"></i>
                         </a>
                     </li>
