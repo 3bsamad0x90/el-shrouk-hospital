@@ -48,11 +48,15 @@ class StaticPagesController extends Controller
             ];
             return response()->json($resArr);
         }
-        $weCare = weCare::get();
+        $weCare = weCare::where('status', 1)->get();
+        $StaticWeCareData = [
+            'weCareTitle' => getSettingValue('weCareTitle_'.$lang),
+            'weCareImage' => getSettingImageLink('weCareImage'),
+        ];
         if(!$weCare){
             return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
         }
-        return response()->json(weCaresResource::collection($weCare), Response::HTTP_OK);
+        return response()->json([weCaresResource::collection($weCare),'StaticWeCareData'=>$StaticWeCareData], Response::HTTP_OK);
     }
 
     public function ourTeam(Request $request)
@@ -119,7 +123,7 @@ class StaticPagesController extends Controller
                 'twitter' => getSettingValue('twitter'),
                 'instagram' => getSettingValue('instagram'),
                 'youtube' => getSettingValue('youtube'),
-                'whatsapp' => getSettingValue('whatsapp'),
+
                 'linkedin' => getSettingValue('linkedin'),
             ],
             'siteLogo' => getSettingImageLink('logo'),
@@ -127,6 +131,7 @@ class StaticPagesController extends Controller
                 'address' => getSettingValue('address_'.$lang),
                 'email' => getSettingValue('email'),
                 'phone' => getSettingValue('phone'),
+                'whatsapp' => getSettingValue('whatsapp'),
                 'hotLine' => getSettingValue('hotLine'),
                 'map' => getSettingValue('map'),
                 'imageMap' => getSettingImageLink('imageMap'),

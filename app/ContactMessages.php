@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactMessages extends Model
@@ -11,7 +12,7 @@ class ContactMessages extends Model
 
     public function fromTime()
     {
-        return date('d-m-Y H:i',strtotime($this->created_at));
+        return Carbon::createFromDate($this->created_at)->timezone('Africa/Cairo')->format('d-m-Y H:i A');
     }
     public function countryDetails()
     {

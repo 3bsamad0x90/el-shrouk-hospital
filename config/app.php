@@ -67,8 +67,8 @@ return [
     |
     */
 
+    // 'timezone' => 'Africa/Cairo',
     'timezone' => 'UTC',
-
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
