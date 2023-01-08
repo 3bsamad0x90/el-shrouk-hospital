@@ -20,8 +20,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="weCare-tab" data-bs-toggle="tab" href="#weCare" aria-controls="weCare" role="tab" aria-selected="true">
-                                <i data-feather="heart"></i>مميزاتنا
+                            <a class="nav-link" id="AddressManagement-tab" data-bs-toggle="tab" href="#AddressManagement" aria-controls="AddressManagement" role="tab" aria-selected="true">
+                                <i data-feather="clipboard"></i>إدارة العناوين
                             </a>
                         </li>
                         <li class="nav-item">
@@ -52,8 +52,8 @@
                         <div class="tab-pane" id="mainPage" aria-labelledby="main-tab" role="tabpanel">
                             @include('AdminPanel.settings.includes.mainPage')
                         </div>
-                        <div class="tab-pane" id="weCare" aria-labelledby="weCare-tab" role="tabpanel">
-                            @include('AdminPanel.settings.includes.weCare')
+                        <div class="tab-pane" id="AddressManagement" aria-labelledby="AddressManagement-tab" role="tabpanel">
+                            @include('AdminPanel.settings.includes.AddressManagement')
                         </div>
                         <div class="tab-pane" id="social" aria-labelledby="social-tab" role="tabpanel">
                             @include('AdminPanel.settings.includes.social')

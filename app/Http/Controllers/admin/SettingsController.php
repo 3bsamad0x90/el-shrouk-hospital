@@ -43,7 +43,10 @@ class SettingsController extends Controller
             'mobile' => 'nullable|numeric|regex:/[0-9]{10}/',
             'phone' => 'nullable|numeric|regex:/[0-9]{10}/',
             'hotLine' => 'nullable|numeric',
-
+            'ServicesTitle_ar' => 'nullable|string',
+            'ServicesTitle_en' => 'nullable|string',
+            'ServicesDes_ar' => 'nullable|string',
+            'ServicesDes_en' => 'nullable|string',
         ]);
 
         //foreach inputs which is text ant textarea

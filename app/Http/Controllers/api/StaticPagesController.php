@@ -30,11 +30,15 @@ class StaticPagesController extends Controller
             return response()->json($resArr);
         }
         $services = Services::get();
+        $StaticServicesData = [
+            'ServiceTitle' => getSettingValue('ServicesTitle_'.$lang),
+            'ServicesDes' => getSettingValue('ServicesDes_'.$lang),
+        ];
         if(!$services){
             return response()->json(['status' => 'No Service', Response::HTTP_NOT_FOUND]);
         }
 
-        return response()->json(ServicesResource::collection($services), Response::HTTP_OK);
+        return response()->json(['Services'=>ServicesResource::collection($services),'StaticServicesData' => $StaticServicesData], Response::HTTP_OK);
     }
 
     public function weCares(Request $request)
@@ -56,7 +60,7 @@ class StaticPagesController extends Controller
         if(!$weCare){
             return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
         }
-        return response()->json([weCaresResource::collection($weCare),'StaticWeCareData'=>$StaticWeCareData], Response::HTTP_OK);
+        return response()->json(['staticIcons'=>weCaresResource::collection($weCare),'StaticWeCareData'=>$StaticWeCareData], Response::HTTP_OK);
     }
 
     public function ourTeam(Request $request)
@@ -113,10 +117,6 @@ class StaticPagesController extends Controller
                 'mainPageTitle' => getSettingValue('mainPageTitle_'.$lang),
                 'mainPageDesc' => getSettingValue('mainPageDesc_'.$lang),
                 'mainPageImage' => getSettingImageLink('mainPageImage'),
-            ],
-            'weCare'=> [
-                'weCareTitle' => getSettingValue('weCareTitle_'.$lang),
-                'weCareImage' => getSettingImageLink('weCareImage'),
             ],
             'social' => [
                 'facebook' => getSettingValue('facebook'),
