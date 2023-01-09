@@ -24,10 +24,19 @@ class newsEventsController extends Controller
             return response()->json($resArr);
         }
         $news_events = News::get();
+        $staticNewsTitles =[
+                'newsEventsTitle' => getSettingValue('NewsTitle_'.$lang),
+                'newsEventsDes' => getSettingValue('NewsDes_'.$lang),
+        ];
+       $staticMediaTitles =[
+                'gallaryMediaTitle' => getSettingValue('MediaTitle_'.$lang),
+                'gallaryMediaDes' => getSettingValue('MediaDes_'.$lang),
+        ];
+
         if(!$news_events){
             return response()->json(['status' => 'No Data', Response::HTTP_NOT_FOUND]);
         }
-        return response()->json(newsEventsResource::collection($news_events), Response::HTTP_OK);
+        return response()->json(['news_events'=>newsEventsResource::collection($news_events), 'staticNewsTitles'=> $staticNewsTitles, 'staticMediaTitles'=> $staticMediaTitles], Response::HTTP_OK);
     }
 
     public function show(Request $request, $id){

@@ -62,66 +62,6 @@ class SettingsController extends Controller
                 $setting->update();
             }
         }
-        if (!isset($request['closeSite'])) {
-            $setting = Settings::where('key', 'closeSite')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'closeSite';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
-        if (!isset($request['freeShipping'])) {
-            $setting = Settings::where('key', 'freeShipping')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'freeShipping';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
-        if (!isset($request['otherShippingMethod'])) {
-            $setting = Settings::where('key', 'otherShippingMethod')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'otherShippingMethod';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
-        if (!isset($request['stopAllPublishers'])) {
-            $setting = Settings::where('key', 'stopAllPublishers')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'stopAllPublishers';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
-        if (!isset($request['autoBooksPublishing'])) {
-            $setting = Settings::where('key', 'autoBooksPublishing')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'autoBooksPublishing';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
-        if (!isset($request['publisherControlPublishStatus'])) {
-            $setting = Settings::where('key', 'publisherControlPublishStatus')->first();
-            if ($setting == '') {
-                $setting = New Settings;
-                $setting->key = 'publisherControlPublishStatus';
-                $setting->save();
-            }
-            $setting->value = '0';
-            $setting->update();
-        }
 
 
         //foreach inputs which is file

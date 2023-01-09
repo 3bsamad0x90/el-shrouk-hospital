@@ -97,6 +97,24 @@ class StaticPagesController extends Controller
         }
         return response()->json(equipmentsResource::collection($equipments), Response::HTTP_OK);
     }
+    public function staticTitles(Request $request){
+        $lang = $request->header('lang');
+        if($lang == ''){
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $staticTitles = [
+            'gallaryMedia' => [
+                'gallaryMediaTitle' => getSettingValue('MediaTitle_'.$lang),
+                'gallaryMediaDes' => getSettingValue('MediaDes_'.$lang),
+            ],
+        ];
+        return response()->json($staticTitles, Response::HTTP_OK);
+    }
 
     public function settings(Request $request){
         $lang = $request->header('lang');
