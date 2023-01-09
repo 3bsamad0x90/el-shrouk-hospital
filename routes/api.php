@@ -29,6 +29,7 @@ Route::group(['middleware'=> ['api']], function () {
     Route::get('/equipments','api\StaticPagesController@equipments');
     Route::get('/newsEvents','api\StaticPagesController@newsEvents');
     Route::get('/settings','api\StaticPagesController@settings');
+    Route::get('/aboutus','api\StaticPagesController@aboutus');
     Route::get('/staticTitles','api\StaticPagesController@staticTitles');
 
     Route::get('/media/{id}','api\gallaryMediaController@MediaImages');

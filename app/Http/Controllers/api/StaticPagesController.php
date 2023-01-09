@@ -115,7 +115,39 @@ class StaticPagesController extends Controller
         ];
         return response()->json($staticTitles, Response::HTTP_OK);
     }
-
+    public function aboutus(Request $request){
+        $lang = $request->header('lang');
+        if ($lang == '') {
+            $resArr = [
+                'status' => 'failed',
+                'message' => trans('api.pleaseSendLangCode'),
+                'data' => []
+            ];
+            return response()->json($resArr);
+        }
+        $aboutUs = [
+            'Description' => getSettingValue('aboutusDes_'.$lang),
+            'boxes' => [
+                [
+                    'title' => getSettingValue('aboutUs1title_'.$lang),
+                    'desc' => getSettingValue('aboutUs1des_'.$lang),
+                    'icon' => getSettingImageLink('aboutUs1icon'),
+                ],
+                [
+                    'title' => getSettingValue('aboutUs2title_'.$lang),
+                    'desc' => getSettingValue('aboutUs2des_'.$lang),
+                    'image' => getSettingImageLink('aboutUs2icon'),
+                ],
+                [
+                    'title' => getSettingValue('aboutUs3title_'.$lang),
+                    'desc' => getSettingValue('aboutUs3des_'.$lang),
+                    'image' => getSettingImageLink('aboutUs3icon'),
+                ],
+            ],
+        ];
+        return response()->json($aboutUs, Response::HTTP_OK);
+    }
+    
     public function settings(Request $request){
         $lang = $request->header('lang');
         if ($lang == '') {
@@ -153,26 +185,6 @@ class StaticPagesController extends Controller
                 'hotLine' => getSettingValue('hotLine'),
                 'map' => getSettingValue('map'),
                 'imageMap' => getSettingImageLink('imageMap'),
-            ],
-            'aboutUs' => [
-                'Description' => getSettingValue('aboutusDes_'.$lang),
-                'boxes' => [
-                    [
-                        'title' => getSettingValue('aboutUs1title_'.$lang),
-                        'desc' => getSettingValue('aboutUs1des_'.$lang),
-                        'icon' => getSettingImageLink('aboutUs1icon'),
-                    ],
-                    [
-                        'title' => getSettingValue('aboutUs2title_'.$lang),
-                        'desc' => getSettingValue('aboutUs2des_'.$lang),
-                        'image' => getSettingImageLink('aboutUs2icon'),
-                    ],
-                    [
-                        'title' => getSettingValue('aboutUs3title_'.$lang),
-                        'desc' => getSettingValue('aboutUs3des_'.$lang),
-                        'image' => getSettingImageLink('aboutUs3icon'),
-                    ],
-                ],
             ],
         ];
 
